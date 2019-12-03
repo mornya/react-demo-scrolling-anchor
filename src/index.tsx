@@ -8,12 +8,18 @@ const option: Ignite.IOption = {
   application: {
     component: () => import('./App'),
     rootElementId: 'app',
-    onHotReload: next => module.hot.accept('./App', next),
+    onHotReload: next => module.hot && module.hot.accept('./App', next),
   },
   store: {
     middlewares: [ReduxThunk],
     reducers,
     initialState: {},
+  },
+  router: {
+    isUseBrowserRouter: true,
+  },
+  serviceWorker: {
+    isUse: process.env.NODE_ENV === 'production',
   },
 };
 
