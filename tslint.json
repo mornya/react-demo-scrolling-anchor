@@ -17,9 +17,11 @@
     "no-consecutive-blank-lines": false,
     "no-console": {
       "severity": "warning",
-      "options": ["debug", /*"info", "log",*/ "time", "timeEnd", "trace"]
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
     },
+    "no-implicit-dependencies": [true, ["@", "~"]],
     "no-namespace": false,
+    "no-submodule-imports": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "prefer-for-of": false,
@@ -35,9 +37,11 @@
       }
     ],
     // override tslint-react rules
+    "jsx-boolean-value": false,
     "jsx-no-multiline-js": false,
     "jsx-self-close": true,
-    "jsx-space-before-trailing-slash": false
+    "jsx-space-before-trailing-slash": false,
+    "jsx-wrap-multiline": false
   },
   "jsRules": true
 }

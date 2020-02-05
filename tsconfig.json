@@ -15,10 +15,16 @@
     ],
     "lib": [
       "esnext",
+      "esnext.asynciterable",
       "dom",
       "dom.iterable"
     ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "~/*": ["./src/*"]
+    },
     "charset": "utf8",
+    "baseUrl": ".",
     "outDir": "./dist/",
     "jsx": "react",
     "esModuleInterop": true,
@@ -26,6 +32,7 @@
     "skipLibCheck": true,
     "allowJs": true,
     "checkJs": false,
+    "strict": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
@@ -40,7 +47,8 @@
     "src/**/*"
   ],
   "exclude": [
-    "assets",
+    "public",
+    "src/assets",
     "dist",
     "node_modules",
     ".idea",
