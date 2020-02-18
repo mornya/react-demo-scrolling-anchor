@@ -5,8 +5,8 @@ import { ScrollingAnchor } from '@mornya/scrolling-anchor-libs'
 import './App.scss'
 import '@mornya/scrolling-anchor-libs/dist/scrolling-anchor.scss'
 
-const Home = LazyComponent(() => import('components/home'))
-const About = LazyComponent(() => import('components/about'), <div>Loading About..</div>)
+const Home = LazyComponent(() => import('@/components/home'))
+const About = LazyComponent(() => import('@/components/about'), <div>Loading About..</div>)
 
 const utilAreaTopHeight = 120
 const utilAreaBottomHeight = 80

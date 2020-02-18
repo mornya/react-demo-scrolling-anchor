@@ -19,7 +19,7 @@
   "scripts": {
     "login": "react-vessel login",
     "lint": "react-vessel lint",
-    "lint:all": "react-vessel lint all",
+    "lint:fix": "react-vessel lint fix",
     "clean": "react-vessel clean",
     "build": "react-vessel build",
     "start": "react-vessel start",
@@ -37,27 +37,25 @@
   "dependencies": {
     "@mornya/react-helper": "^0.8.1",
     "@mornya/scrolling-anchor-libs": "^1.1.0",
-    "immer": "^5.3.4",
+    "immer": "^5.3.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.1",
-    "@types/node": "^13.7.0",
-    "@types/react": "^16.9.19",
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.1",
+    "@types/react": "^16.9.20",
     "@types/react-dom": "^16.9.5",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3",
     "jest": "^25.1.0",
-    "jest-transform-stub": "^2.0.0",
+    "jest-transform-stub": "latest",
     "prop-types": "^15.7.2",
     "ts-jest": "^25.2.0",
-    "tslint": "^5.20.1",
-    "tslint-react": "4.1.0",
     "typescript": "^3.7.5"
   },
   "browserslist": [
@@ -78,12 +76,6 @@
       "xfwd": true
     }
   },
-  "eslintConfig": {
-    "root": false,
-    "env": {
-      "node": true
-    }
-  },
   "jest": {
     "testURL": "http://test.com/index.html",
     "setupFiles": [
@@ -92,12 +84,12 @@
     "transform": {
       ".([t|j]sx?|mjs)$": "ts-jest",
       ".(bmp|gif|jpe?g|png|tif|webp|svg|mp4|webm|flac|mp3|wav|ogg|aac|eot|[t|o]tf|woff2?)$": "jest-transform-stub",
-      ".(s?css|styl(us)?)$": "jest-transform-stub"
+      ".((sa|sc|c|le)ss|styl(us)?)$": "jest-transform-stub"
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
+      "/node_modules/"
     ],
-    "testRegex": "\\.test\\.([t|j]sx?|mjs)$",
+    "testRegex": "\\.(test|spec)\\.([t|j]sx?|mjs)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -107,7 +99,9 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
-      "^~/(.*)$": "<rootDir>/src/$1"
+      "^~/(.*)$": "<rootDir>/src/$1",
+      "^.+.(bmp|gif|jpe?g|png|tif|webp|svg|mp4|webm|flac|mp3|wav|ogg|aac|eot|[t|o]tf|woff2?)$": "jest-transform-stub",
+      "^.+.((sa|sc|c|le)ss|styl(us)?)$": "jest-transform-stub"
     },
     "globals": {
       "ts-jest": {
@@ -116,6 +110,6 @@
     }
   },
   "vessel": {
-    "minVersion": "3.0.0"
+    "minVersion": "3.1.0"
   }
 }
