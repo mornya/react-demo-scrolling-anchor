@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[0],{21:function(n,e,o){o(22),n.exports=o(24)},24:function(n,e,o){"use strict";o.r(e),function(n){var e=o(17),r={application:{component:function(){return o.e(3).then(o.bind(null,42))},rootElementId:"app",onHotReload:function(e){return n.hot&&!1}},router:{isUseBrowserRouter:!0,basename:"/react-demo-scrolling-anchor/"},serviceWorker:{isUse:!0,config:{url:"./",file:"service-worker.js"}}};e.Ignite.init(r)}.call(this,o(14)(n))}},[[21,1,2]]]);
+//# sourceMappingURL=app-1e28cce7.js.map
