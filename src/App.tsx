@@ -1,15 +1,17 @@
-import * as React from 'react'
-import { Route, Link /* Redirect, Switch */ } from 'react-router-dom'
-import { LazyComponent } from '@mornya/react-helper'
-import { ScrollingAnchor } from '@mornya/scrolling-anchor-libs'
-import './App.scss'
-import '@mornya/scrolling-anchor-libs/dist/scrolling-anchor.scss'
+import React, { RefObject } from 'react';
+import { Link /* Route, Redirect, Switch */ } from 'react-router-dom';
+import { ScrollingAnchor } from '@mornya/scrolling-anchor-libs';
+import '@mornya/scrolling-anchor-libs/dist/scrolling-anchor.scss';
+import './App.scss';
 
-const Home = LazyComponent(() => import('@/components/home'))
-const About = LazyComponent(() => import('@/components/about'), <div>Loading About..</div>)
+interface Props {}
 
-const utilAreaTopHeight = 120
-const utilAreaBottomHeight = 80
+interface State {
+  utilArea: boolean;
+}
+
+const utilAreaTopHeight = 120;
+const utilAreaBottomHeight = 80;
 
 /**
  * This is an app of entries.
@@ -27,38 +29,37 @@ const utilAreaBottomHeight = 80
  *   <Route path="/project/:no" component={Project} />
  * </div>
  */
-export default class App extends React.Component {
-  state = {
+export default class App extends React.Component<Props, State> {
+  readonly state: State = {
     utilArea: false,
+  };
+
+  private readonly refAppWrapper: RefObject<HTMLDivElement>;
+  private saNav: ScrollingAnchor | null = null;
+
+  constructor (props: Props) {
+    super(props);
+
+    this.refAppWrapper = React.createRef();
   }
 
-  refAppWrapper = null
-  saNav = null
-
-  constructor (props) {
-    super(props)
-
-    this.refAppWrapper = React.createRef()
-    this.state.utilArea = false
-  }
-
-  onScroll = (nextOffset, prevOffset, maxOffset) => {
+  onScroll = (nextOffset: number, prevOffset: number, maxOffset: number) => {
     if (nextOffset <= maxOffset - utilAreaBottomHeight) {
       if (nextOffset - prevOffset < 0) {
         if (!this.state.utilArea) {
-          this.setState({ utilArea: true })
+          this.setState({ utilArea: true });
         }
       } else {
         if (this.state.utilArea) {
-          this.setState({ utilArea: false })
+          this.setState({ utilArea: false });
         }
       }
     }
-  }
+  };
 
-  onAttach = (direction, index) => console.log(`${direction}:${index} is ATTACHED!`)
+  onAttach = (direction: string, index: number) => console.log(`${direction}:${index} is ATTACHED!`);
 
-  onDetach = (direction, index) => console.log(`${direction}:${index} is DETACHED!`)
+  onDetach = (direction: string, index: number) => console.log(`${direction}:${index} is DETACHED!`);
 
   componentDidMount () {
     this.saNav = new ScrollingAnchor('.scrolling-anchor', {
@@ -67,15 +68,15 @@ export default class App extends React.Component {
       onScroll: this.onScroll,
       onAttach: this.onAttach,
       onDetach: this.onDetach,
-    })
+    });
   }
 
-  componentDidUpdate (prevProps, prevState, snapshot) {
+  componentDidUpdate (prevProps: Props, prevState: State) {
     if (prevState.utilArea !== this.state.utilArea) {
-      this.saNav.setPosition({
+      this.saNav?.setPosition({
         offsetAttachTop: this.state.utilArea ? utilAreaTopHeight : 0,
         offsetAttachBottom: this.state.utilArea ? utilAreaBottomHeight : 0,
-      })
+      });
     }
   }
 
@@ -89,8 +90,6 @@ export default class App extends React.Component {
           <div className="scrolling-anchor" data-direction="top">
             <nav>
               <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
                 <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
                 <li>(Scrolling Anchor TOP)</li>
               </ul>
@@ -100,13 +99,10 @@ export default class App extends React.Component {
           <header>
             <h1>React Demo</h1>
             <h2>Scrolling Anchor library</h2>
-
-            <Route exact path="/" component={Home}/>
-            <Route path="/about" component={About}/>
           </header>
 
           <footer>
-            Copyright 2019 by mornya. All rights reserved.
+            Copyright 2020. mornya. All rights reserved.
           </footer>
 
           <div className="scrolling-anchor" data-direction="top">
@@ -123,11 +119,46 @@ export default class App extends React.Component {
             </nav>
           </div>
 
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
 
           <div className="scrolling-anchor" data-direction="bottom">
             <nav>
@@ -143,10 +174,38 @@ export default class App extends React.Component {
             </nav>
           </div>
 
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
 
           <div className="scrolling-anchor" data-direction="top">
             <nav>
@@ -159,10 +218,38 @@ export default class App extends React.Component {
             </nav>
           </div>
 
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
-          <div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div><div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
+          <div>*</div>
 
           <div className="scrolling-anchor" data-direction="bottom">
             <nav>
@@ -180,12 +267,10 @@ export default class App extends React.Component {
           Utility Bar Area
         </div>
       </>
-    )
+    );
   }
 
   componentWillUnmount () {
-    if (this.saNav) {
-      this.saNav.destroy()
-    }
+    this.saNav?.destroy();
   }
 }
