@@ -13,8 +13,10 @@ DEMO: [https://mornya.github.io/react-demo-scrolling-anchor/](https://mornya.git
 ```bash
 $ npm install -g @mornya/react-vessel @lintest/cli
 
-$ cd {{PROJECT_NAME}}
+$ git clone https://github.com/mornya/react-demo-scrolling-anchor
+$ cd react-demo-scrolling-anchor
 $ npm install
+$ lintest export
 ```
 
 ## Runs in local for development
