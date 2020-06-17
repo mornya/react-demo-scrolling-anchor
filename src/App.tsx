@@ -61,6 +61,13 @@ export default class App extends React.Component<Props, State> {
 
   onDetach = (direction: string, index: number) => console.log(`${direction}:${index} is DETACHED!`);
 
+  onClickMoveScroll = () =>
+    this.saNav?.scrollTo({
+      el: document.getElementById('target-area'),
+      marginTop: 0,
+      delay: 0,
+    });
+
   componentDidMount () {
     this.saNav = new ScrollingAnchor('.scrolling-anchor', {
       offsetAttachTop: this.state.utilArea ? utilAreaTopHeight : 0,
@@ -111,6 +118,7 @@ export default class App extends React.Component<Props, State> {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/about">About</Link></li>
                 <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
+                <li><button onClick={this.onClickMoveScroll}>SCROLL TO TARGET ELEMENT</button></li>
                 <li>(Scrolling Anchor TOP)</li>
               </ul>
               <div className="aldhoaa">
@@ -192,6 +200,7 @@ export default class App extends React.Component<Props, State> {
           <div>*</div>
           <div>*</div>
           <div>*</div>
+          <div id="target-area" style={{ textAlign: 'center', color: '#fff' }}>========== TARGET ELEMENT TO SCROLL ==========</div>
           <div>*</div>
           <div>*</div>
           <div>*</div>
