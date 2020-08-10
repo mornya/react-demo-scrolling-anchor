@@ -118,7 +118,7 @@ export default class App extends React.Component<Props, State> {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/about">About</Link></li>
                 <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li><button onClick={this.onClickMoveScroll}>SCROLL TO TARGET ELEMENT</button></li>
+                <li><button onClick={this.onClickMoveScroll}>Scroll to target element</button></li>
                 <li>(Scrolling Anchor TOP)</li>
               </ul>
               <div className="aldhoaa">
@@ -200,7 +200,7 @@ export default class App extends React.Component<Props, State> {
           <div>*</div>
           <div>*</div>
           <div>*</div>
-          <div id="target-area" style={{ textAlign: 'center', color: '#fff' }}>========== TARGET ELEMENT TO SCROLL ==========</div>
+          <div id="target-area" style={{ textAlign: 'center', color: '#fff' }}>~~~ It&apos;s me, a target element! ~~~</div>
           <div>*</div>
           <div>*</div>
           <div>*</div>

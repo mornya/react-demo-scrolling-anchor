@@ -15,9 +15,7 @@ html, body {
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-  sans-serif;
+  font-family: Montserrat, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -86,6 +84,8 @@ $--util-area-bottom-height: 80px;
   background-color: rgba(#336699, .5);
   text-align: center;
   transition: all ease-in-out 1s;
+  font-weight: bold;
+  color: cyan;
 }
 .util-area-top {
   top: 0;
