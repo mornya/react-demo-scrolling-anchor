@@ -32,7 +32,7 @@ $ npm run build
 
 ## Lints your codes
 ```bash
-$ npm run [lint|lint:fix|lint:coverage]
+$ npm run [lint|lint:fix]
 $ lintest lint [--fix]
 ```
 
