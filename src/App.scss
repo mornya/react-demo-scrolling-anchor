@@ -157,10 +157,14 @@ $--util-area-bottom-height: 80px;
   }
 
   nav {
+    width: 100%;
+
     ul {
-      display: inline-block;
+      display: flex;
+      justify-content: space-between;
       margin: 0;
       padding: 0 20px;
+      width: 100%;
       list-style: none;
 
       li {
@@ -169,6 +173,7 @@ $--util-area-bottom-height: 80px;
         line-height: 48px;
         font-size: 13px;
         font-weight: bold;
+        color: darkcyan;
 
         a {
           padding: 10px 5px;
@@ -196,7 +201,10 @@ $--util-area-bottom-height: 80px;
   }
 
   .aldhoaa {
-    padding: 15px 25px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: .8em;
     background-color: rgba(0, 0, 0, 0.05);
     font-size: .8em;
     color: #ccc;
@@ -204,8 +212,8 @@ $--util-area-bottom-height: 80px;
 
   footer {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    right: 15px;
+    bottom: 60px;
     font-size: 11px;
     color: rgba(#999, .3);
   }

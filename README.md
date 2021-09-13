@@ -33,13 +33,13 @@ $ npm run build
 ## Lints your codes
 ```bash
 $ npm run [lint|lint:fix|lint:coverage]
-$ lintest lint [fix]
+$ lintest lint [--fix]
 ```
 
 ## Runs your testcases
 ```bash
 $ npm run [test|test:watch|test:coverage]
-$ lintest test [watch][coverage]
+$ lintest test [--watch][--coverage]
 ```
 
 ## License

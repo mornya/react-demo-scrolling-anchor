@@ -1,14 +1,10 @@
-import React, { RefObject } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link /* Route, Redirect, Switch */ } from 'react-router-dom';
-import { ScrollingAnchor } from '@mornya/scrolling-anchor-libs';
+import { ScrollingAnchor, IScrollingAnchorEventTarget } from '@mornya/scrolling-anchor-libs';
 import '@mornya/scrolling-anchor-libs/dist/scrolling-anchor.scss';
 import './App.scss';
 
-interface Props {}
-
-interface State {
-  utilArea: boolean;
-}
+type Props = {};
 
 const utilAreaTopHeight = 120;
 const utilAreaBottomHeight = 80;
@@ -29,257 +25,162 @@ const utilAreaBottomHeight = 80;
  *   <Route path="/project/:no" component={Project} />
  * </div>
  */
-export default class App extends React.Component<Props, State> {
-  readonly state: State = {
-    utilArea: false,
-  };
+const App: React.FC<Props> = (_props: Props) => {
+  const [utilArea, setUtilArea] = useState<boolean>(false);
+  const scrollingAnchor = useRef<ScrollingAnchor | null>(null);
 
-  private readonly refAppWrapper: RefObject<HTMLDivElement>;
-  private saNav: ScrollingAnchor | null = null;
-
-  constructor (props: Props) {
-    super(props);
-
-    this.refAppWrapper = React.createRef();
-  }
-
-  onScroll = (nextOffset: number, prevOffset: number, maxOffset: number) => {
+  const onScroll = useCallback((nextOffset: number, prevOffset: number, maxOffset: number) => {
     if (nextOffset <= maxOffset - utilAreaBottomHeight) {
       if (nextOffset - prevOffset < 0) {
-        if (!this.state.utilArea) {
-          this.setState({ utilArea: true });
+        // 스크롤방향이 위쪽일 경우 노출
+        if (scrollingAnchor.current) {
+          setUtilArea(true);
         }
       } else {
-        if (this.state.utilArea) {
-          this.setState({ utilArea: false });
+        // 스크롤방향이 아래쪽일 경우 미노출
+        if (scrollingAnchor.current) {
+          setUtilArea(false);
         }
       }
     }
-  };
+  }, []);
 
-  onAttach = (direction: string, index: number) => console.log(`${direction}:${index} is ATTACHED!`);
+  const onAttach = useCallback((eventTarget: IScrollingAnchorEventTarget) => {
+    console.log(`${eventTarget.direction}:${eventTarget.lastIndex} is ATTACHED!`);
+  }, []);
 
-  onDetach = (direction: string, index: number) => console.log(`${direction}:${index} is DETACHED!`);
+  const onDetach = useCallback((eventTarget: IScrollingAnchorEventTarget) => {
+    console.log(`${eventTarget.direction}:${eventTarget.lastIndex} is DETACHED!`);
+  }, []);
 
-  onClickMoveScroll = () =>
-    this.saNav?.scrollTo({
+  const onClickMoveScroll = useCallback(() => {
+    scrollingAnchor.current?.scrollTo({
       el: document.getElementById('target-area'),
       marginTop: 0,
       delay: 0,
     });
+  }, []);
 
-  componentDidMount () {
-    this.saNav = new ScrollingAnchor('.scrolling-anchor', {
-      offsetAttachTop: this.state.utilArea ? utilAreaTopHeight : 0,
-      offsetAttachBottom: this.state.utilArea ? utilAreaBottomHeight : 0,
-      onScroll: this.onScroll,
-      onAttach: this.onAttach,
-      onDetach: this.onDetach,
-    });
-  }
-
-  componentDidUpdate (prevProps: Props, prevState: State) {
-    if (prevState.utilArea !== this.state.utilArea) {
-      this.saNav?.setPosition({
-        offsetAttachTop: this.state.utilArea ? utilAreaTopHeight : 0,
-        offsetAttachBottom: this.state.utilArea ? utilAreaBottomHeight : 0,
+  useEffect(() => {
+    if (!scrollingAnchor.current) {
+      scrollingAnchor.current = new ScrollingAnchor('.scrolling-anchor', {
+        offsetAttachTop: 0, // utilArea 초기값은 false 이므로 0
+        offsetAttachBottom: 0, // utilArea 초기값은 false 이므로 0
+        onScroll,
+        onAttach,
+        onDetach,
       });
     }
-  }
+    return () => {
+      scrollingAnchor.current?.destroy();
+    };
+  }, [onScroll, onAttach, onDetach]); // only mount and unmount
 
-  render () {
-    return (
-      <>
-        <div className="util-area-top" style={{ top: this.state.utilArea ? 0 : -utilAreaTopHeight }}>
-          Navigation Bar Area
-        </div>
-        <div ref={this.refAppWrapper} className={`app-wrapper ${this.state.utilArea ? 'has-util-area' : ''}`}>
-          <div className="scrolling-anchor" data-direction="top">
-            <nav>
-              <ul>
-                <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li>(Scrolling Anchor TOP)</li>
-              </ul>
-            </nav>
-          </div>
+  useEffect(() => {
+    scrollingAnchor.current?.setPosition({
+      offsetAttachTop: utilArea ? utilAreaTopHeight : 0,
+      offsetAttachBottom: utilArea ? utilAreaBottomHeight : 0,
+    });
+  }, [utilArea]);
 
-          <header>
-            <h1>React Demo</h1>
-            <h2>Scrolling Anchor library</h2>
-          </header>
+  return (
+    <>
+      <div className="util-area-top" style={{ top: utilArea ? 0 : -utilAreaTopHeight }}>
+        Navigation Bar Area
+      </div>
 
-          <footer>
-            Copyright 2020. mornya. All rights reserved.
-          </footer>
-
-          <div className="scrolling-anchor" data-direction="top">
-            <nav>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li><button onClick={this.onClickMoveScroll}>Scroll to target element</button></li>
-                <li>(Scrolling Anchor TOP)</li>
-              </ul>
-              <div className="aldhoaa">
-                A little different height of anchor area
-              </div>
-            </nav>
-          </div>
-
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-
-          <div className="scrolling-anchor" data-direction="bottom">
-            <nav>
-              <div className="aldhoaa">
-                A little different height of anchor area
-              </div>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li>(Scrolling Anchor BOTTOM)</li>
-              </ul>
-            </nav>
-          </div>
-
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div id="target-area" style={{ textAlign: 'center', color: '#fff' }}>~~~ It&apos;s me, a target element! ~~~</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-
-          <div className="scrolling-anchor" data-direction="top">
-            <nav>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li>(Scrolling Anchor TOP)</li>
-              </ul>
-            </nav>
-          </div>
-
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-          <div>*</div>
-
-          <div className="scrolling-anchor" data-direction="bottom">
-            <nav>
-              <ul>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-                <li><a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a></li>
-                <li>(Scrolling Anchor BOTTOM)</li>
-              </ul>
-            </nav>
-          </div>
+      <div className={`app-wrapper ${utilArea ? 'has-util-area' : ''}`}>
+        <div className="scrolling-anchor" data-direction="top">
+          <nav>
+            <ul>
+              <li>1ST Scrolling Anchor</li>
+              <li>
+                <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React.js</a>
+              </li>
+            </ul>
+          </nav>
         </div>
 
-        <div className="util-area-bottom" style={{ bottom: this.state.utilArea ? 0 : -utilAreaBottomHeight }}>
-          Utility Bar Area
-        </div>
-      </>
-    );
-  }
+        <header>
+          <h1>React Demo</h1>
+          <h2>Scrolling Anchor library</h2>
+        </header>
 
-  componentWillUnmount () {
-    this.saNav?.destroy();
-  }
-}
+        <footer>
+          Copyright {new Date().getFullYear()}. mornya. All rights reserved.
+        </footer>
+
+        <div className="scrolling-anchor" data-direction="top">
+          <nav>
+            <ul>
+              <li>2ND Scrolling Anchor</li>
+              <li>
+                <Link to="/">Home</Link>
+                <a href="https://github.com/mornya" target="_blank" rel="noopener noreferrer">Github</a>
+                <a href="https://npmjs.com/search?q=mornya" target="_blank" rel="noopener noreferrer">NPM</a>
+              </li>
+            </ul>
+            <div className="aldhoaa">
+              <span>This anchor a little different height of anchor area!</span>
+            </div>
+          </nav>
+        </div>
+
+        <div style={{ height: '400px' }}/>
+
+        <div className="scrolling-anchor" data-direction="bottom">
+          <nav>
+            <div className="aldhoaa">
+              A little different height of anchor area
+            </div>
+            <ul>
+              <li>2ND Scrolling Anchor (Attaches at BOTTOM)</li>
+              <li>
+                <a href="https://jstella.kr" target="_blank" rel="noopener noreferrer">jstella</a>
+                <a href="https://blog.jstella.kr" target="_blank" rel="noopener noreferrer">blog</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div style={{ height: '400px' }}/>
+
+        <div id="target-area" style={{ textAlign: 'center', color: '#fff' }}>
+          <span role="img" aria-label="혀를 내밀고 눈웃음 짓는 얼굴">😝</span>
+          It&apos;s me, a target element!
+          <span role="img" aria-label="키스를 보내는 얼굴">😘</span>
+        </div>
+
+        <div style={{ height: '400px' }}/>
+
+        <div className="scrolling-anchor" data-direction="top">
+          <nav>
+            <ul>
+              <li>3RD Scrolling Anchor</li>
+              <li><button onClick={onClickMoveScroll}>Click to scroll</button></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div style={{ height: '600px' }}/>
+
+        <div className="scrolling-anchor" data-direction="bottom">
+          <nav>
+            <ul>
+              <li>1ST Scrolling Anchor (Attaches at BOTTOM)</li>
+              <li>
+                <a href="https://www.instagram.com/m.o.r.n.y.a/" target="_blank" rel="noopener noreferrer">Learn Me</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div className="util-area-bottom" style={{ bottom: utilArea ? 0 : -utilAreaBottomHeight }}>
+        Utility Bar Area
+      </div>
+    </>
+  );
+};
+
+export default App;
