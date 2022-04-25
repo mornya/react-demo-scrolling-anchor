@@ -4,7 +4,6 @@ const option: Ignitor.Option = {
   application: {
     component: () => import('./App'),
     rootElementId: 'app',
-    onHotReload: next => module.hot?.accept('./App', next),
   },
   router: {
     isUseBrowserRouter: true,

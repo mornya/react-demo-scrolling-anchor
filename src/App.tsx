@@ -31,16 +31,12 @@ const App: React.FC<Props> = (_props: Props) => {
 
   const onScroll = useCallback((nextOffset: number, prevOffset: number, maxOffset: number) => {
     if (nextOffset <= maxOffset - utilAreaBottomHeight) {
-      if (nextOffset - prevOffset < 0) {
+      if ((nextOffset - prevOffset < 0) && scrollingAnchor.current) {
         // 스크롤방향이 위쪽일 경우 노출
-        if (scrollingAnchor.current) {
-          setUtilArea(true);
-        }
-      } else {
+        setUtilArea(true);
+      } else if (scrollingAnchor.current) {
         // 스크롤방향이 아래쪽일 경우 미노출
-        if (scrollingAnchor.current) {
-          setUtilArea(false);
-        }
+        setUtilArea(false);
       }
     }
   }, []);
