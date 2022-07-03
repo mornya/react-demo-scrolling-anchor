@@ -26,8 +26,9 @@ const utilAreaBottomHeight = 80;
  * </div>
  */
 const App: React.FC<Props> = (_props: Props) => {
-  const [utilArea, setUtilArea] = useState<boolean>(false);
   const scrollingAnchor = useRef<ScrollingAnchor | null>(null);
+
+  const [utilArea, setUtilArea] = useState<boolean>(false);
 
   const onScroll = useCallback((nextOffset: number, prevOffset: number, maxOffset: number) => {
     if (nextOffset <= maxOffset - utilAreaBottomHeight) {
