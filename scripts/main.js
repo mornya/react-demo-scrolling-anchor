@@ -8,7 +8,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var option = {
     application: {
-        component: function () { return Promise.all(/* import() */[__webpack_require__.e("vendors-_nvm_versions_node_v14_19_1_lib_node_modules_mornya_react-vessel_node_modules_css-loa-aa744b"), __webpack_require__.e("src_App_tsx")]).then(__webpack_require__.bind(__webpack_require__, "./src/App.tsx")); },
+        component: function () { return Promise.all(/* import() */[__webpack_require__.e("vendors-_nvm_versions_node_v14_20_0_lib_node_modules_mornya_react-vessel_node_modules_css-loa-7fe959"), __webpack_require__.e("src_App_tsx")]).then(__webpack_require__.bind(__webpack_require__, "./src/App.tsx")); },
         rootElementId: 'app',
     },
     router: {
